@@ -4,18 +4,22 @@ namespace ServerApp.Models.BindingTargets
 {
     public class ContactData
     {
+        Contact contact = new Contact();
+
         [Required]
-        public string? Name { get; set; }
+        public string? Name { get => contact.Name; set => contact.Name = value ?? string.Empty; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
-        public string? Telephone { get; set; }
+        [Phone]
+        public string? Telephone { get => contact.Telephone; set => contact.Telephone = value ?? string.Empty; }
 
         public Contact GetContact() => new Contact
         {
             Name = Name!,
             Telephone = Telephone!
         };
+
+        public void SetContact(Contact contact) => this.contact = contact;
     }
 }
