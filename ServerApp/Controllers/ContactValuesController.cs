@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
 using ServerApp.Models.BindingTargets;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ServerApp.Controllers
 {
@@ -15,8 +16,17 @@ namespace ServerApp.Controllers
 
         public ContactValuesController(DataContext ctx) => context = ctx;
 
+        [HttpGet("{id}")]
+        public Contact? GetContact(long id)
+        {
+            var contact = context
+                .Contacts
+                .FirstOrDefault(p => p.ContactId == id);
+            return contact;
+        }
+
         [HttpGet]
-        public IEnumerable<Contact> GetContacts() => context.Contacts.AsNoTracking();
+        public IEnumerable<Contact> GetContacts() => context.Contacts.OrderBy(c => c.ContactId).AsNoTracking();
 
         [HttpPost]
         public IActionResult CreateContact([FromBody] ContactData contactData)

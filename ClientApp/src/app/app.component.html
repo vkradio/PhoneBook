@@ -1,20 +1,5 @@
-<div class="p-2">
-
-  <table class="table table-sm table-striped">
-    <tbody>
-      <tr>
-        <th>Name</th>
-        <th>Telephone</th>
-      </tr>
-      <tr *ngFor="let contact of contacts">
-        <td>{{contact.name}}</td>
-        <td>{{contact.telephone}}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <button class="btn btn-primary m-1" (click)="createContact()">Create Contact</button>
-  <button class="btn btn-primary m-1" (click)="replaceContact()">Replace Contact</button>
-  <button class="btn btn-primary m-1" (click)="deleteContact()">Delete Contact</button>
-
+<div class="bg-danger text-white text-center p-2 m-2" *ngIf="error != null">
+  <h6 *ngFor="let e of error">{{e}}</h6>
+  <button class="btn btn-warning" (click)="clearError()">OK</button>
 </div>
+<app-phonebook></app-phonebook>

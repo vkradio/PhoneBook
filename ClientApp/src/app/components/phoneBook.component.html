@@ -1,0 +1,46 @@
+<table *ngIf="tableMode; else create" class="table table-sm table-striped">
+  <tbody>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Telephone</th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let c of contacts">
+      <ng-template [ngIf]="contact?.contactId != c.contactId" [ngIfElse]="edit">
+        <td>{{c.contactId}}</td>
+        <td>{{c.name}}</td>
+        <td>{{c.telephone}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary" (click)="selectContact(c.contactId)">Edit</button>
+          <button class="btn btn-sm btn-danger ml-1" (click)="deleteContact(c.contactId)">Delete</button>
+        </td>
+      </ng-template>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="6" class="text-center">
+        <button class="btn btn-primary" (click)="clearContact(); tableMode = false">Create</button>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<ng-template #edit>
+  <td colspan="4" class="bg-light border p-3">
+    <app-contact-editor></app-contact-editor>
+    <div class="text-center">
+      <button class="btn btn-sm btn-primary" (click)="saveContact()">Save</button>
+      <button class="btn btn-sm btn-info ml-1" (click)="clearContact()">Cancel</button>
+    </div>
+  </td>
+</ng-template>
+
+<ng-template #create>
+  <div class="m-2">
+    <app-contact-editor></app-contact-editor>
+    <button class="btn btn-primary" (click)="saveContact()">Save</button>
+    <button class="btn btn-info ml-1" (click)="clearContact()">Cancel</button>
+  </div>
+</ng-template>

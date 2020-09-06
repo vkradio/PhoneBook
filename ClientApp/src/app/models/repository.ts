@@ -48,7 +48,7 @@ export class Repository {
   replaceContact(con: Contact) {
     const data = {
       name: con.name,
-      category: con.telephone
+      telephone: con.telephone
     };
 
     this
