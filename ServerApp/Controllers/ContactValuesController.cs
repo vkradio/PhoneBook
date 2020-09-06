@@ -26,7 +26,19 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Contact> GetContacts() => context.Contacts.OrderBy(c => c.ContactId).AsNoTracking();
+        public IEnumerable<Contact> GetContacts(string? filter)
+        {
+            IQueryable<Contact> query = context.Contacts;
+
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+#pragma warning disable CA1307 // Specify StringComparison
+                query = query.Where(c => c.Name.Contains(filter));
+#pragma warning restore CA1307 // Specify StringComparison
+            }
+
+            return query.OrderBy(c => c.ContactId).AsEnumerable();
+        }
 
         [HttpPost]
         public IActionResult CreateContact([FromBody] ContactData contactData)

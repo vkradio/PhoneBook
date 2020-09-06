@@ -26,7 +26,7 @@ export class NavigationService {
   private handleNavigationChange() {
     const active = this.active.firstChild.snapshot;
     if (active.url.length > 0 && active.url[0].path === 'phonebook') {
-      this.repo.filter.search = '';
+      //this.repo.filter.search = '';
       if (active.params.page !== undefined) {
         const value = Number.parseInt(active.params.page, 10);
         if (!Number.isNaN(value)) {

@@ -1,0 +1,6 @@
+  <div class="col">
+    <div class="p-2 bg-info text-white form-group row" (keydown)="handleKeyboardEvent($event)">
+      <input [(ngModel)]="searchModel" #search="ngModel" />
+      <button class="btn btn-primary" (click)="doSearch(search.value)">Filter</button>
+    </div>
+  </div>

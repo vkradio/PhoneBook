@@ -10,6 +10,7 @@ import { ErrorHandlerService } from './errorHandler.service';
 import { ContactEditorComponent } from './components/contactEditor.component';
 import { PhoneBookComponent } from './components/phoneBook.component';
 import { PaginationComponent } from './components/pagination.component';
+import { FilterComponent } from './components/filter.component';
 import { NavigationService } from './models/navigation.service';
 
 @NgModule({
@@ -17,7 +18,8 @@ import { NavigationService } from './models/navigation.service';
     AppComponent,
     ContactEditorComponent,
     PhoneBookComponent,
-    PaginationComponent
+    PaginationComponent,
+    FilterComponent
   ],
   imports: [
     HttpClientModule,

@@ -24,9 +24,13 @@ export class Repository {
   }
 
   getContacts() {
+    let url = contactsUrl;
+    if (this.filter.search) {
+      url += `?filter=${this.filter.search}`;
+    }
     this
       .http
-      .get<Contact[]>(contactsUrl)
+      .get<Contact[]>(url)
       .subscribe(cs => this.contacts = cs);
   }
 

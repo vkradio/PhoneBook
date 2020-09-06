@@ -26,10 +26,16 @@ export class PhoneBookComponent {
       this.repo.replaceContact(this.repo.contact);
     }
     this.clearContact();
+
+    this.repo.filter.search = '';
+    this.repo.getContacts();
   }
 
   deleteContact(id: number) {
     this.repo.deleteContact(id);
+
+    this.repo.filter.search = '';
+    this.repo.getContacts();
   }
 
   clearContact() {
@@ -38,8 +44,6 @@ export class PhoneBookComponent {
   }
 
   get contacts() {
-    //return this.repo.contacts;
-
     if (this.repo.contacts != null && this.repo.contacts.length > 0) {
       const p = this.repo.paginationObject;
       const pageIndex = (p.currentPage - 1) * p.contactsPerPage;
