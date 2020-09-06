@@ -38,6 +38,15 @@ export class PhoneBookComponent {
   }
 
   get contacts() {
-    return this.repo.contacts;
+    //return this.repo.contacts;
+
+    if (this.repo.contacts != null && this.repo.contacts.length > 0) {
+      const p = this.repo.paginationObject;
+      const pageIndex = (p.currentPage - 1) * p.contactsPerPage;
+      return this
+        .repo
+        .contacts
+        .slice(pageIndex, pageIndex + p.contactsPerPage);
+    }
   }
 }

@@ -3,6 +3,6 @@ export class Filter {
 }
 
 export class Pagination {
-  phonesPerPage = 3;
+  contactsPerPage = 3;
   currentPage = 1;
 }
