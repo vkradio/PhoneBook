@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
 using ServerApp.Models.BindingTargets;
 using System.Collections.Generic;

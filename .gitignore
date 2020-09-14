@@ -348,3 +348,16 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/ServerApp/wwwroot/app/styles.css
+/ServerApp/wwwroot/app/runtime-es5.js
+/ServerApp/wwwroot/app/runtime-es2015.js
+/ServerApp/wwwroot/app/polyfills-es5.js
+/ServerApp/wwwroot/app/polyfills-es5-es2015.js.LICENSE.txt
+/ServerApp/wwwroot/app/polyfills-es2015.js.LICENSE.txt
+/ServerApp/wwwroot/app/polyfills-es2015.js
+/ServerApp/wwwroot/app/main-es5.js
+/ServerApp/wwwroot/app/main-es2015.js.LICENSE.txt
+/ServerApp/wwwroot/app/main-es2015.js
+/ServerApp/wwwroot/app/index.html
+/ServerApp/wwwroot/app/favicon.ico
+/ServerApp/wwwroot/app/3rdpartylicenses.txt
