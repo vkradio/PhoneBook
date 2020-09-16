@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ServerApp
+namespace WebAPI
 {
     public static class Program
     {

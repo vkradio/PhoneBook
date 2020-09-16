@@ -1,4 +1,6 @@
 using Ardalis.GuardClauses;
+using DataAccessService;
+using DddInfrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -6,12 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ServerApp.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace ServerApp
+namespace WebAPI
 {
     public class Startup
     {
@@ -38,9 +39,11 @@ namespace ServerApp
         [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Not compatible with ASP.NET MVC convention over configuration principle")]
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+
             var connectionString = Configuration["ConnectionStrings:DefaultConnection"];
 
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<PhoneBookDbContext>(options => options.UseSqlServer(connectionString));
 
             services
                 .AddControllersWithViews()
@@ -58,10 +61,13 @@ namespace ServerApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseCors(builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
             }
 
             app.UseStaticFiles();
@@ -91,12 +97,12 @@ namespace ServerApp
                 }
                 else
                 {
-                    spa.Options.SourcePath = "../ClientApp";
+                    spa.Options.SourcePath = "../AngularUI";
                     spa.UseAngularCliServer("start");
                 }
             });
 
-            SeedData.SeedDatabase(services.GetRequiredService<DataContext>());
+            SeedData.SeedDatabase(services.GetRequiredService<PhoneBookDbContext>());
         }
     }
 }

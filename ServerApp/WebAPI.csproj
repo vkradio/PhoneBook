@@ -29,5 +29,11 @@
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessService\DataAccessService.csproj" />
+    <ProjectReference Include="..\DddBase\DddBase.csproj" />
+    <ProjectReference Include="..\DomainModel\DomainModel.csproj" />
+  </ItemGroup>
 
 </Project>

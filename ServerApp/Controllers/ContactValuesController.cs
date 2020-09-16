@@ -1,55 +1,41 @@
 ﻿using Ardalis.GuardClauses;
+using DataAccessService;
+using DddInfrastructure;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
-using ServerApp.Models;
-using ServerApp.Models.BindingTargets;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using WebAPI.ViewModels;
 
-namespace ServerApp.Controllers
+namespace WebAPI.Controllers
 {
     [Route("api/contacts")]
     [ApiController]
     public class ContactValuesController : Controller
     {
-        readonly DataContext context;
+        readonly UnitOfWork unitOfWork;
 
-        public ContactValuesController(DataContext ctx) => context = ctx;
+        public ContactValuesController(IUnitOfWork uow) => unitOfWork = (UnitOfWork)uow;
 
         [HttpGet("{id}")]
-        public Contact? GetContact(long id)
-        {
-            var contact = context
-                .Contacts
-                .FirstOrDefault(p => p.ContactId == id);
-            return contact;
-        }
+        public async Task<Contact?> GetContact(long id) =>
+            await unitOfWork.ContactRepository.GetContactByIdAsync(id).ConfigureAwait(false);
 
         [HttpGet]
-        public IEnumerable<Contact> GetContacts(string? filter)
-        {
-            IQueryable<Contact> query = context.Contacts;
-
-            if (!string.IsNullOrWhiteSpace(filter))
-            {
-#pragma warning disable CA1307 // Specify StringComparison
-                query = query.Where(c => c.Name.Contains(filter));
-#pragma warning restore CA1307 // Specify StringComparison
-            }
-
-            return query.OrderBy(c => c.ContactId).AsEnumerable();
-        }
+        public async Task<IEnumerable<Contact>> GetContacts(string? filter) =>
+            await unitOfWork.ContactRepository.GetContactsAsync(filter).ConfigureAwait(false);
 
         [HttpPost]
-        public IActionResult CreateContact([FromBody] ContactData contactData)
+        public async Task<IActionResult> CreateContact([FromBody] ContactViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                Guard.Against.Null(contactData, nameof(contactData));
+                Guard.Against.Null(viewModel, nameof(viewModel));
 
-                var contact = contactData.GetContact();
-                context.Add(contact);
-                context.SaveChanges();
-                return Ok(contact.ContactId);
+                var contact = viewModel.GetContact();
+                unitOfWork.ContactRepository.InsertContact(contact);
+                await unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+                return Ok(contact.Id);
             }
             else
             {
@@ -58,16 +44,16 @@ namespace ServerApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult ReplaceContact(long id, [FromBody] ContactData contactData)
+        public async Task<IActionResult> ReplaceContact(long id, [FromBody] ContactViewModel contactData)
         {
             if (ModelState.IsValid)
             {
                 Guard.Against.Null(contactData, nameof(contactData));
 
                 var contact = contactData.GetContact();
-                contact.ContactId = id;
-                context.Update(contact);
-                context.SaveChanges();
+                contact.SetId(id);
+                unitOfWork.ContactRepository.UpdateContact(contact);
+                await unitOfWork.SaveChangesAsync().ConfigureAwait(false);
                 return Ok();
             }
             else
@@ -77,10 +63,13 @@ namespace ServerApp.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void DeleteContact(long id)
+        public async Task DeleteContact(long id)
         {
-            context.Remove(new Contact { ContactId = id });
-            context.SaveChanges();
+            var taskDelete = unitOfWork.ContactRepository.DeleteContactAsync(id);
+            var taskSave = unitOfWork.SaveChangesAsync();
+
+            await taskDelete.ConfigureAwait(true);
+            await taskSave.ConfigureAwait(true);
         }
     }
 }

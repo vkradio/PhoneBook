@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ServerApp.Migrations
+namespace DataAccessService.Migrations
 {
     public partial class Initial : Migration
     {
@@ -13,14 +13,14 @@ namespace ServerApp.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    ContactId = table.Column<long>(nullable: false)
+                    Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Telephone = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.ContactId);
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
                 });
         }
 
