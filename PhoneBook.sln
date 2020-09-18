@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "ServerApp\WebAPI.csproj", "{72157ACB-13FF-458D-B407-17A2444E1322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{72157ACB-13FF-458D-B407-17A2444E1322}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AngularUI", "AngularUI\", "{9B01FCD3-065C-4A30-BD72-B537AD674BA7}"
 	ProjectSection(WebsiteProperties) = preProject
