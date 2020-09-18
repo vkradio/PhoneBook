@@ -19,11 +19,11 @@ namespace WebAPI.Controllers
 
         [HttpGet("{id}")]
         public async Task<Contact?> GetContact(long id) =>
-            await unitOfWork.ContactRepository.GetContactByIdAsync(id).ConfigureAwait(false);
+            await unitOfWork.ContactRepository.GetContactByIdAsync(id).ConfigureAwait(true);
 
         [HttpGet]
         public async Task<IEnumerable<Contact>> GetContacts(string? filter) =>
-            await unitOfWork.ContactRepository.GetContactsAsync(filter).ConfigureAwait(false);
+            await unitOfWork.ContactRepository.GetContactsAsync(filter).ConfigureAwait(true);
 
         [HttpPost]
         public async Task<IActionResult> CreateContact([FromBody] ContactViewModel viewModel)
@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
 
                 var contact = viewModel.GetContact();
                 unitOfWork.ContactRepository.InsertContact(contact);
-                await unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+                await unitOfWork.SaveChangesAsync().ConfigureAwait(true);
                 return Ok(contact.Id);
             }
             else
@@ -53,7 +53,7 @@ namespace WebAPI.Controllers
                 var contact = contactData.GetContact();
                 contact.SetId(id);
                 unitOfWork.ContactRepository.UpdateContact(contact);
-                await unitOfWork.SaveChangesAsync().ConfigureAwait(false);
+                await unitOfWork.SaveChangesAsync().ConfigureAwait(true);
                 return Ok();
             }
             else
@@ -65,11 +65,8 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task DeleteContact(long id)
         {
-            var taskDelete = unitOfWork.ContactRepository.DeleteContactAsync(id);
-            var taskSave = unitOfWork.SaveChangesAsync();
-
-            await taskDelete.ConfigureAwait(true);
-            await taskSave.ConfigureAwait(true);
+            await unitOfWork.ContactRepository.DeleteContactAsync(id).ConfigureAwait(true);
+            await unitOfWork.SaveChangesAsync().ConfigureAwait(true);
         }
     }
 }

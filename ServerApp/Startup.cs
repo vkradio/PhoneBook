@@ -69,6 +69,12 @@ namespace WebAPI
                         .AllowAnyMethod();
                 });
             }
+            else
+            {
+                app.UseHsts();
+            }
+
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

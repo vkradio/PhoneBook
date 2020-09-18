@@ -44,7 +44,7 @@ export class Repository {
       .http
       .post<number>(contactsUrl, data)
       .subscribe(id => {
-        con.contactId = id;
+        con.id = id;
         this.contacts.push(con);
       });
   }
@@ -57,7 +57,7 @@ export class Repository {
 
     this
       .http
-      .put(`${contactsUrl}/${[con.contactId]}`, data)
+      .put(`${contactsUrl}/${con.id}`, data)
       .subscribe(() => this.getContacts());
   }
 

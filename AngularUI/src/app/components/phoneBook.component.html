@@ -7,13 +7,13 @@
       <th></th>
     </tr>
     <tr *ngFor="let c of contacts">
-      <ng-template [ngIf]="contact?.contactId != c.contactId" [ngIfElse]="edit">
-        <td>{{c.contactId}}</td>
+      <ng-template [ngIf]="contact?.id != c.id" [ngIfElse]="edit">
+        <td>{{c.id}}</td>
         <td>{{c.name}}</td>
         <td>{{c.telephone}}</td>
         <td>
-          <button class="btn btn-sm btn-primary" (click)="selectContact(c.contactId)">Edit</button>
-          <button class="btn btn-sm btn-danger ml-1" (click)="deleteContact(c.contactId)">Delete</button>
+          <button class="btn btn-sm btn-primary" (click)="selectContact(c.id)">Edit</button>
+          <button class="btn btn-sm btn-danger ml-1" (click)="deleteContact(c.id)">Delete</button>
         </td>
       </ng-template>
     </tr>
