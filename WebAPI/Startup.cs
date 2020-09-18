@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace WebAPI
 {
     public class Startup
     {
+        const string apiVer = "v1";
+        const string apiName = "PhoneBook API";
+
         public Startup(IWebHostEnvironment env)
         {
             Guard.Against.Null(env, nameof(env));
@@ -49,6 +53,11 @@ namespace WebAPI
                 .AddControllersWithViews()
                 .AddJsonOptions(opts => { opts.JsonSerializerOptions.IgnoreNullValues = true; })
                 .AddNewtonsoftJson();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc(apiVer, new OpenApiInfo { Title = apiName, Version = apiVer });
+            });
         }
 
 
@@ -79,6 +88,12 @@ namespace WebAPI
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint($"/swagger/{apiVer}/swagger.json", apiName);
+            });
 
             app.UseEndpoints(endpoints =>
             {
